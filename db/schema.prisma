@@ -19,10 +19,15 @@ model User {
   name           String?
   email          String   @unique
   hashedPassword String?
-  role           String   @default("USER")
+  role           Role     @default(USER)
 
   tokens   Token[]
   sessions Session[]
+}
+
+enum Role {
+  USER
+  ADMIN
 }
 
 model Session {
