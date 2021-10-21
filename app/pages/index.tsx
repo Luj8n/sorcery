@@ -1,14 +1,12 @@
-import { Suspense } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { Image, Link, BlitzPage, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
+import { BsChevronDown } from "react-icons/bs"
+import { MdLightMode, MdDarkMode } from "react-icons/md"
+import { useTheme } from "next-themes"
 import logo from "public/logo.png"
-
-/*
- * This file is just for a pleasant getting started page for your new app.
- * You can delete everything in here and start from scratch if you like.
- */
 
 const UserInfo = () => {
   const currentUser = useCurrentUser()
@@ -50,15 +48,39 @@ const UserInfo = () => {
   }
 }
 
-const Home: BlitzPage = () => {
+const ThemeButton = () => {
+  const [mounted, setMounted] = useState(false)
+  const { theme, setTheme } = useTheme()
+  const isDarkMode = theme === "dark"
+
+  useEffect(() => setMounted(true), [])
+
+  if (!mounted) return null
+
   return (
     <div>
-      <h1>Hello, world!</h1>
+      <button
+        onClick={() => setTheme(isDarkMode ? "light" : "dark")}
+        className="focus:outline-none"
+      >
+        {isDarkMode ? <MdDarkMode size={30} /> : <MdLightMode size={30} />}
+      </button>
+    </div>
+  )
+}
 
-      <Suspense fallback="Loading...">
+const Home: BlitzPage = () => {
+  return (
+    <>
+      <div className="dark:bg-primary-900 dark:text-neutral-100 h-20">
+        <div>Text</div>
+        <ThemeButton />
+      </div>
+
+      <Suspense fallback="AAAAAAAAAAAAAAAAAAAAAAA">
         <UserInfo />
       </Suspense>
-    </div>
+    </>
   )
 }
 
