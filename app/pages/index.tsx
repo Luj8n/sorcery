@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { Link, BlitzPage, useMutation, Routes } from "blitz"
 import WithHeader from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
@@ -47,14 +46,12 @@ const UserInfo = () => {
 const Home: BlitzPage = () => {
   return (
     <>
-      <Suspense fallback="Loading...">
-        <UserInfo />
-      </Suspense>
+      <div>Home page</div>
     </>
   )
 }
 
 Home.suppressFirstRenderFlicker = true
-Home.getLayout = (page) => <WithHeader title="Home">{page}</WithHeader>
+Home.getLayout = (page) => <WithHeader title="Sorcery">{page}</WithHeader>
 
 export default Home

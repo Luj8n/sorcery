@@ -1,4 +1,4 @@
-import { ReactNode } from "react"
+import { ReactNode, Suspense } from "react"
 import { Head } from "blitz"
 import Header from "../components/Header"
 
@@ -15,7 +15,9 @@ const WithHeaderLayout = ({ title, children }: LayoutProps) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="h-screen bg-neutral-200 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100">
-        <Header />
+        <Suspense fallback="">
+          <Header />
+        </Suspense>
         {children}
       </div>
     </>

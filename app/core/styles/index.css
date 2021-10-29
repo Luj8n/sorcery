@@ -2,6 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-  @apply transition-colors ease-in-out duration-500;
+button {
+  @apply focus:outline-none;
 }

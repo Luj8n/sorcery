@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { Image, Link, Routes } from "blitz"
 import { MdLightMode, MdDarkMode } from "react-icons/md"
+import { FaUserCircle } from "react-icons/fa"
 import { useTheme } from "next-themes"
+import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logo from "public/white-logo.svg"
 
 const ThemeButton = ({ ...props }) => {
@@ -23,6 +25,7 @@ const ThemeButton = ({ ...props }) => {
 const Header = () => {
   const [currentTab, setCurrentTab] = useState("/problems")
   const { resolvedTheme } = useTheme()
+  const currentUser = useCurrentUser()
 
   const buttons = [
     {
@@ -64,7 +67,20 @@ const Header = () => {
           </Link>
           {buttons}
         </div>
-        <ThemeButton className="focus:outline-none hover:text-neutral-900 text-neutral-600 dark:hover:text-neutral-50 dark:text-neutral-300" />
+        <div className="flex space-x-6">
+          <ThemeButton className="hover:text-neutral-900 text-neutral-600 dark:hover:text-neutral-50 dark:text-neutral-300" />
+          {currentUser ? (
+            <button className="my-auto">
+              <FaUserCircle size={35} />
+            </button>
+          ) : (
+            <Link href={Routes.LoginPage()}>
+              <button className="h-1/2 my-auto px-5 rounded-md bg-primary-500 text-neutral-50 hover:ring-2 focus:ring-4">
+                Log in
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
     </>
   )

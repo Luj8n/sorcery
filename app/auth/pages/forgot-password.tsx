@@ -1,4 +1,4 @@
-import { BlitzPage, useMutation } from "blitz"
+import { BlitzPage, useMutation, Routes } from "blitz"
 import Layout from "app/core/layouts/Layout"
 import { LabeledTextField } from "app/core/components/LabeledTextField"
 import { Form, FORM_ERROR } from "app/core/components/Form"
@@ -42,7 +42,7 @@ const ForgotPasswordPage: BlitzPage = () => {
   )
 }
 
-ForgotPasswordPage.redirectAuthenticatedTo = "/"
+ForgotPasswordPage.redirectAuthenticatedTo = Routes.Home()
 ForgotPasswordPage.getLayout = (page) => <Layout title="Forgot Your Password?">{page}</Layout>
 
 export default ForgotPasswordPage
