@@ -22,7 +22,7 @@ export const SignupForm = (props: SignupFormProps) => {
         className="w-full rounded-lg shadow-md bg-neutral-50 dark:bg-neutral-700 p-9"
         buttonProps={{
           className:
-            "w-full rounded-md bg-primary-600 text-neutral-50 py-2.5 font-medium disabled:bg-primary-500 disabled:cursor-default",
+            "w-full rounded-md bg-primary-600 text-neutral-50 py-2.5 font-medium disabled:bg-primary-500 disabled:cursor-default hover:bg-primary-700 active:ring-4",
         }}
         alertProps={{ className: "text-red-600 my-2" }}
         onSubmit={async (values) => {
@@ -43,7 +43,7 @@ export const SignupForm = (props: SignupFormProps) => {
           name="email"
           label="Email address"
           labelProps={{ className: "mb-1.5" }}
-          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-[0.5px] border-opacity-50 border-neutral-400 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
+          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-2 border-opacity-50 border-neutral-400 focus:border-primary-500 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
           alertProps={{ className: "text-red-600 text-sm mt-1" }}
           outerProps={{ className: "mb-3" }}
         />
@@ -52,7 +52,7 @@ export const SignupForm = (props: SignupFormProps) => {
           label="Password"
           type="password"
           labelProps={{ className: "mb-1.5" }}
-          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-[0.5px] border-opacity-50 border-neutral-400 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
+          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-2 border-opacity-50 border-neutral-400 focus:border-primary-500 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
           alertProps={{ className: "text-red-600 text-sm mt-1" }}
         />
       </Form>
