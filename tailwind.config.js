@@ -8,9 +8,9 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: colors.indigo,
+        primary: colors.amber,
         secondary: colors.yellow,
-        neutral: colors.gray,
+        neutral: colors.trueGray,
       },
       fontFamily: {
         primary: ["Inter", "sans-serif"],
