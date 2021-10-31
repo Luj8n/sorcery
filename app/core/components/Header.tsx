@@ -75,7 +75,7 @@ const Header = () => {
             </button>
           ) : (
             <Link href={Routes.LoginPage()}>
-              <button className="h-1/2 my-auto px-5 rounded-md bg-primary-600 text-neutral-50 hover:ring-2 focus:ring-4">
+              <button className="h-1/2 my-auto px-5 rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4">
                 Log in
               </button>
             </Link>
