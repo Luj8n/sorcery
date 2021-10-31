@@ -1,5 +1,5 @@
 import { Link, BlitzPage, useMutation, Routes } from "blitz"
-import WithHeader from "app/core/layouts/Layout"
+import Header from "app/core/layouts/Layout"
 import { useCurrentUser } from "app/core/hooks/useCurrentUser"
 import logout from "app/auth/mutations/logout"
 import { Suspense } from "react"
@@ -56,6 +56,6 @@ const Home: BlitzPage = () => {
 }
 
 Home.authenticate = { redirectTo: Routes.LoginPage() }
-Home.getLayout = (page) => <WithHeader title="Sorcery">{page}</WithHeader>
+Home.getLayout = (page) => <Header title="Sorcery">{page}</Header>
 
 export default Home

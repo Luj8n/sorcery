@@ -1,5 +1,5 @@
 import { BlitzPage } from "blitz"
-import WithHeader from "app/core/layouts/Layout"
+import Header from "app/core/layouts/Layout"
 
 const Test: BlitzPage = () => {
   return (
@@ -9,6 +9,6 @@ const Test: BlitzPage = () => {
   )
 }
 
-Test.getLayout = (page) => <WithHeader title="Test">{page}</WithHeader>
+Test.getLayout = (page) => <Header title="Test">{page}</Header>
 
 export default Test
