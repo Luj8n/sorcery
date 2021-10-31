@@ -12,13 +12,19 @@ export const LoginForm = (props: LoginFormProps) => {
   const [loginMutation] = useMutation(login)
 
   return (
-    <div>
-      <h1>Login</h1>
+    <div className="flex items-center justify-center flex-col h-5/6 w-[28rem] mx-auto">
+      <h1 className="w-full mb-10 text-4xl font-bold text-center">Login</h1>
 
       <Form
-        submitText="Login"
+        submitText="Log in"
         schema={Login}
         initialValues={{ email: "", password: "" }}
+        className="w-full rounded-lg shadow-md bg-neutral-50 dark:bg-neutral-700 p-9"
+        buttonProps={{
+          className:
+            "w-full rounded-md bg-primary-600 text-neutral-50 py-2.5 font-medium disabled:bg-primary-500 disabled:cursor-default hover:bg-primary-700 active:ring-4",
+        }}
+        alertProps={{ className: "text-red-600" }}
         onSubmit={async (values) => {
           try {
             await loginMutation(values)
@@ -35,17 +41,31 @@ export const LoginForm = (props: LoginFormProps) => {
           }
         }}
       >
-        <LabeledTextField name="email" label="Email" placeholder="Email" />
-        <LabeledTextField name="password" label="Password" placeholder="Password" type="password" />
-        <div>
-          <Link href={Routes.ForgotPasswordPage()}>
-            <a>Forgot your password?</a>
-          </Link>
-        </div>
+        <LabeledTextField
+          name="email"
+          label="Email address"
+          labelProps={{ className: "mb-1.5" }}
+          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-2 border-opacity-50 border-neutral-400 focus:border-primary-500 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
+          alertProps={{ className: "text-red-600 text-sm mt-1" }}
+          outerProps={{ className: "mb-3" }}
+        />
+        <LabeledTextField
+          name="password"
+          label="Password"
+          type="password"
+          labelProps={{ className: "mb-1.5" }}
+          className="appearance-none outline-none w-full text-base py-1.5 px-2 rounded-md border-2 border-opacity-50 border-neutral-400 focus:border-primary-500 border-solid dark:bg-neutral-600 dark:disabled:bg-neutral-500 bg-neutral-50 disabled:bg-neutral-200"
+          alertProps={{ className: "text-red-600 text-sm mt-1" }}
+        />
+        <Link href={Routes.ForgotPasswordPage()}>
+          <a className="text-primary-600 dark:text-primary-500 font-semibold hover:text-primary-500 dark:hover:text-primary-400">
+            Forgot your password?
+          </a>
+        </Link>
       </Form>
 
-      <div className="mt-4">
-        Or <Link href={Routes.SignupPage()}>Sign Up</Link>
+      <div className="mt-4 text-primary-600 dark:text-primary-500 font-semibold hover:text-primary-500 dark:hover:text-primary-400 text-base">
+        <Link href={Routes.SignupPage()}>Or Sign Up</Link>
       </div>
     </div>
   )
