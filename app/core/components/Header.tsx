@@ -47,7 +47,7 @@ const Header = () => {
   ].map((b) => (
     <button
       key={b.link}
-      className={`px-1 focus:outline-none ${
+      className={`px-1 focus:outline-none font-semibold ${
         currentTab === b.link
           ? "border-b-2 pt-[2px] border-primary-500"
           : "border-transparent hover:border-b-2 hover:pt-[2px] hover:border-primary-300 hover:border-opacity-60"
@@ -75,7 +75,7 @@ const Header = () => {
             </button>
           ) : (
             <Link href={Routes.LoginPage()}>
-              <button className="h-1/2 my-auto px-5 rounded-md bg-primary-500 text-neutral-50 hover:ring-2 focus:ring-4">
+              <button className="h-1/2 my-auto px-5 rounded-md bg-primary-600 text-neutral-50 hover:ring-2 focus:ring-4">
                 Log in
               </button>
             </Link>

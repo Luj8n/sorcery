@@ -1,19 +1,22 @@
 import { z } from "zod"
 
-const password = z.string().min(6).max(100)
+const email = z
+  .string({ invalid_type_error: "Email is required" })
+  .email({ message: "Invalid email address" })
+const password = z.string({ invalid_type_error: "Password is required" }).min(8).max(100)
 
 export const Signup = z.object({
-  email: z.string().email(),
+  email,
   password,
 })
 
 export const Login = z.object({
-  email: z.string().email(),
-  password: z.string(),
+  email,
+  password: z.string({ invalid_type_error: "Password is required" }),
 })
 
 export const ForgotPassword = z.object({
-  email: z.string().email(),
+  email,
 })
 
 export const ResetPassword = z

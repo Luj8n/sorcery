@@ -9,7 +9,7 @@ const ForgotPasswordPage: BlitzPage = () => {
   const [forgotPasswordMutation, { isSuccess }] = useMutation(forgotPassword)
 
   return (
-    <div>
+    <>
       <h1>Forgot your password?</h1>
 
       {isSuccess ? (
@@ -38,7 +38,7 @@ const ForgotPasswordPage: BlitzPage = () => {
           <LabeledTextField name="email" label="Email" placeholder="Email" />
         </Form>
       )}
-    </div>
+    </>
   )
 }
 

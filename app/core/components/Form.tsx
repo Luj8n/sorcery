@@ -13,6 +13,8 @@ export interface FormProps<S extends z.ZodType<any, any>>
   schema?: S
   onSubmit: FinalFormProps<z.infer<S>>["onSubmit"]
   initialValues?: FinalFormProps<z.infer<S>>["initialValues"]
+  alertProps?: PropsWithoutRef<JSX.IntrinsicElements["div"]>
+  buttonProps?: PropsWithoutRef<JSX.IntrinsicElements["button"]>
 }
 
 export function Form<S extends z.ZodType<any, any>>({
@@ -21,6 +23,8 @@ export function Form<S extends z.ZodType<any, any>>({
   schema,
   initialValues,
   onSubmit,
+  alertProps,
+  buttonProps,
   ...props
 }: FormProps<S>) {
   return (
@@ -29,18 +33,19 @@ export function Form<S extends z.ZodType<any, any>>({
       validate={validateZodSchema(schema)}
       onSubmit={onSubmit}
       render={({ handleSubmit, submitting, submitError }) => (
-        <form onSubmit={handleSubmit} className="mt-4" {...props}>
-          {/* Form fields supplied as children are rendered here */}
+        <form onSubmit={handleSubmit} {...props}>
           {children}
 
-          {submitError && (
-            <div role="alert" style={{ color: "red" }}>
-              {submitError}
-            </div>
-          )}
+          <div
+            role="alert"
+            style={{ visibility: submitError ? "visible" : "hidden" }}
+            {...alertProps}
+          >
+            {submitError + ""}
+          </div>
 
           {submitText && (
-            <button type="submit" disabled={submitting}>
+            <button type="submit" disabled={submitting} {...buttonProps}>
               {submitText}
             </button>
           )}

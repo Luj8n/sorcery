@@ -6,7 +6,7 @@ const LoginPage: BlitzPage = () => {
   const router = useRouter()
 
   return (
-    <div>
+    <>
       <LoginForm
         onSuccess={() => {
           const next = router.query.next
@@ -15,7 +15,7 @@ const LoginPage: BlitzPage = () => {
           router.push(next)
         }}
       />
-    </div>
+    </>
   )
 }
 
