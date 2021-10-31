@@ -7,7 +7,7 @@ type LayoutProps = {
   children: ReactNode
 }
 
-const WithHeaderLayout = ({ title, children }: LayoutProps) => {
+const Layout = ({ title, children }: LayoutProps) => {
   return (
     <>
       <Head>
@@ -24,4 +24,4 @@ const WithHeaderLayout = ({ title, children }: LayoutProps) => {
   )
 }
 
-export default WithHeaderLayout
+export default Layout
