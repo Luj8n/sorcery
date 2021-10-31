@@ -43,8 +43,6 @@ export const LabeledTextField = forwardRef<HTMLInputElement, LabeledTextFieldPro
           inputElement
         )}
 
-        {console.log(error)}
-
         <div
           role="alert"
           {...alertProps}
