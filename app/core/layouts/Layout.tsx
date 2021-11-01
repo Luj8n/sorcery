@@ -14,7 +14,7 @@ const Layout = ({ title, children }: LayoutProps) => {
         <title>{title || "Sorcery"}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="h-screen bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 font-primary">
+      <div className="w-screen overflow-x-hidden h-screen bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-100 font-primary pt-20">
         <Suspense fallback="">
           <Header />
         </Suspense>

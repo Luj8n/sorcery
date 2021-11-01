@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { Image, Link, Routes } from "blitz"
+import { Image, Link, Routes, useRouter } from "blitz"
 import { MdLightMode, MdDarkMode } from "react-icons/md"
 import { FaUserCircle } from "react-icons/fa"
 import { useTheme } from "next-themes"
@@ -24,6 +24,8 @@ const ThemeButton = ({ ...props }) => {
 
 const Header = () => {
   const [currentTab, setCurrentTab] = useState("/problems")
+  const router = useRouter()
+
   const { resolvedTheme } = useTheme()
   const currentUser = useCurrentUser()
 
@@ -44,23 +46,23 @@ const Header = () => {
       text: "Playground",
       link: "/playground",
     },
-  ].map((b) => (
+  ].map((btn) => (
     <button
-      key={b.link}
+      key={btn.link}
       className={`px-1 focus:outline-none font-semibold ${
-        currentTab === b.link
+        router.pathname === btn.link
           ? "border-b-2 pt-[2px] border-primary-500"
           : "border-transparent hover:border-b-2 hover:pt-[2px] hover:border-primary-300 hover:border-opacity-60"
       }`}
-      onClick={() => setCurrentTab(b.link)}
+      onClick={() => router.push(btn.link)}
     >
-      {b.text}
+      {btn.text}
     </button>
   ))
 
   return (
     <>
-      <div className="bg-white dark:bg-neutral-900 h-20 px-5 flex align-middle w-screen justify-between">
+      <div className="bg-white dark:bg-neutral-900 h-20 px-5 flex align-middle w-full justify-between fixed top-0">
         <div className="flex space-x-6">
           <Link href={Routes.Home()}>
             <Image src={logo} alt="sorcery" className="cursor-pointer" />
