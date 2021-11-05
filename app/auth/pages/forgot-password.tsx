@@ -20,7 +20,7 @@ const ForgotPasswordPage: BlitzPage = () => {
     )
   else
     return (
-      <div className="flex items-center justify-center flex-col h-5/6 w-[28rem] mx-auto">
+      <div className="flex items-center justify-center flex-col h-5/6 sm:w-[33rem] w-4/5 mx-auto">
         <h1 className="w-full mb-10 text-4xl font-bold text-center">Forgot your password?</h1>
         <Form
           submitText="Send Reset Password Instructions"
