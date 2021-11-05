@@ -11,7 +11,7 @@ const ResetPasswordPage: BlitzPage = () => {
 
   if (isSuccess)
     return (
-      <div className="flex items-center justify-center flex-col h-5/6 w-auto mx-auto">
+      <div className="flex items-center justify-center flex-col h-5/6 sm:w-[33rem] w-4/5 mx-auto">
         <h1 className="mb-10 text-4xl font-bold text-center">Password Reset Successfully</h1>
         <p className="text-base text-center text-primary-500 font-semibold hover:text-primary-400">
           <Link href={Routes.Home()}>Go to the homepage</Link>
@@ -27,7 +27,7 @@ const ResetPasswordPage: BlitzPage = () => {
         submitText="Reset Password"
         schema={ResetPassword}
         initialValues={{ password: "", passwordConfirmation: "", token: query.token as string }}
-        className="w-full rounded-lg shadow-md bg-neutral-50 dark:bg-neutral-700 p-9"
+        className="w-full rounded-lg shadow-md bg-neutral-50 dark:bg-neutral-700 sm:p-9 p-5"
         buttonProps={{
           className:
             "w-full rounded-md bg-primary-600 text-neutral-50 py-2.5 font-medium disabled:bg-primary-500 disabled:cursor-default hover:bg-primary-700 active:ring-4",
