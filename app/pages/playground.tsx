@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react"
-import { BlitzPage, Routes } from "blitz"
+import { BlitzPage, Routes, invoke } from "blitz"
 import { MdSettings } from "react-icons/md"
 import Header from "app/core/layouts/Layout"
+import executeCode from "app/queries/executeCode"
 
 const PlaygroundPage: BlitzPage = () => {
   const [mounted, setMounted] = useState(false)
   const [code, setCode] = useState("")
   const [input, setInput] = useState("")
+  const [stdout, setStdout] = useState("")
+  const [stderror, setStderror] = useState("")
   const [settingsWindow, setSettingsWindow] = useState(false)
 
   useEffect(() => setMounted(true), [])
@@ -70,16 +73,24 @@ const PlaygroundPage: BlitzPage = () => {
           value={input}
           onChange={(e) => changeInput(e.target.value)}
         />
-        <button className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4">
+        <button
+          className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4"
+          onClick={() =>
+            invoke(executeCode, { code, language: "TODO", input }).then((r) => {
+              setStdout(r.stdout)
+              setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
+            })
+          }
+        >
           Execute code
         </button>
         <h1 className="text-lg font-semibold mb-3">stdout:</h1>
         <div className="overflow-auto whitespace-pre mb-7 p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
-          {code}
+          {stdout}
         </div>
-        <h1 className="text-lg font-semibold mb-3">sterr:</h1>
+        <h1 className="text-lg font-semibold mb-3">stderr:</h1>
         <div className="overflow-auto whitespace-pre p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
-          {code}
+          {stderror}
         </div>
       </div>
       <textarea
@@ -93,6 +104,6 @@ const PlaygroundPage: BlitzPage = () => {
 }
 
 PlaygroundPage.authenticate = { redirectTo: Routes.LoginPage() }
-PlaygroundPage.getLayout = (page) => <Header title="Test">{page}</Header>
+PlaygroundPage.getLayout = (page) => <Header title="Playground">{page}</Header>
 
 export default PlaygroundPage
