@@ -76,7 +76,7 @@ const PlaygroundPage: BlitzPage = () => {
         <button
           className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4"
           onClick={() =>
-            invoke(executeCode, { code, language: "TODO", input }).then((r) => {
+            invoke(executeCode, { code, language: "ruby", stdin: input }).then((r) => {
               setStdout(r.stdout)
               setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
             })
