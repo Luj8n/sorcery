@@ -9,6 +9,7 @@ interface SelectProps {
 }
 
 const Select = ({ info, items, defaultItem, onSelect }: SelectProps) => {
+  // TODO: show tooltip, better scrolling, colors
   const [selected, setSelected] = useState(defaultItem)
   const [open, setOpen] = useState(false)
   return (
@@ -21,7 +22,7 @@ const Select = ({ info, items, defaultItem, onSelect }: SelectProps) => {
         <h3 className="ml-1">{selected}</h3>
       </div>
       {open && (
-        <div className="absolute bg-primary-300 dark:bg-primary-600 rounded-lg p-1.5 top-12 space-y-1">
+        <div className="max-h-80 overflow-y-scroll scrollbar-hidden absolute bg-primary-300 dark:bg-primary-600 rounded-lg p-1.5 top-12 space-y-1">
           {items.map((item) => (
             <p
               key={item}

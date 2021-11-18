@@ -7,7 +7,7 @@ const ExecuteCode = z.object({
   stdin: z.string(),
 })
 
-interface RequestResult {
+interface Execution {
   stdout: string
   stderr?: string
   time: number
@@ -18,7 +18,7 @@ interface RequestResult {
 export default resolver.pipe(
   resolver.zod(ExecuteCode),
   resolver.authorize(),
-  async (input): Promise<RequestResult> => {
+  async (input): Promise<Execution> => {
     if (!process.env.RUNNER_URL) throw new Error("process.env.RUNNER_URL missing")
     const execute_endpoint = process.env.RUNNER_URL + "/execute"
     const result = await fetch(execute_endpoint, {
@@ -30,7 +30,7 @@ export default resolver.pipe(
       }),
     })
 
-    if (!result.ok) throw new Error("Something has gone wrong...")
+    if (!result.ok) throw new Error(await result.text())
 
     return await result.json()
   }

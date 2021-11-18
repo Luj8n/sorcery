@@ -14,6 +14,7 @@ module.exports = {
       },
       fontFamily: {
         primary: ["Inter", "sans-serif"],
+        firaMono: ["'Fira Mono'", "monospace"],
       },
     },
   },
