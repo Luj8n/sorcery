@@ -3,15 +3,19 @@ import { BlitzPage, Routes, invoke } from "blitz"
 import { MdSettings } from "react-icons/md"
 import Header from "app/core/layouts/Layout"
 import executeCode from "app/queries/executeCode"
+import Select from "app/core/components/Select"
 
 const PlaygroundPage: BlitzPage = () => {
   const [mounted, setMounted] = useState(false)
   const [code, setCode] = useState("")
-  const [input, setInput] = useState("")
+  const [stdin, setStdin] = useState("")
   const [stdout, setStdout] = useState("")
   const [stderror, setStderror] = useState("")
+  const [language, setLanguage] = useState("")
   const [settingsWindow, setSettingsWindow] = useState(false)
   const [codeIsExecuting, setCodeIsExecuting] = useState(false)
+
+  // TODO: query to get the languages and set the default language
 
   useEffect(() => setMounted(true), [])
 
@@ -22,43 +26,57 @@ const PlaygroundPage: BlitzPage = () => {
     setCode(newCode)
   }
 
-  const changeInput = (newInput: string) => {
-    localStorage.setItem("input", newInput)
-    setInput(newInput)
+  const changeStdin = (newStdin: string) => {
+    localStorage.setItem("stdin", newStdin)
+    setStdin(newStdin)
+  }
+
+  const changeLanguage = (newLanguage: string) => {
+    localStorage.setItem("language", newLanguage)
+    setLanguage(newLanguage)
   }
 
   let savedCode = localStorage.getItem("code")
-  let savedInput = localStorage.getItem("input")
+  let savedStdin = localStorage.getItem("stdin")
+  let savedLanguage = localStorage.getItem("language")
 
   if (savedCode === null) {
     const defaultCode = "// write code here"
     savedCode = defaultCode
   }
 
-  if (savedInput === null) {
-    const defaultInput = ""
-    savedInput = defaultInput
+  if (savedStdin === null) {
+    const defaultStdin = ""
+    savedStdin = defaultStdin
+  }
+
+  if (savedLanguage === null) {
+    const defaultLanguage = "Ruby"
+    savedLanguage = defaultLanguage
   }
 
   if (savedCode !== code) {
     changeCode(savedCode)
   }
 
-  if (savedInput !== input) {
-    changeInput(savedInput)
+  if (savedStdin !== stdin) {
+    changeStdin(savedStdin)
+  }
+
+  if (savedLanguage !== language) {
+    changeLanguage(savedLanguage)
   }
 
   return (
     <div className="h-full flex flex-row justify-between items-stretch">
       <div className="w-1/3 flex flex-col p-5">
         <div className="flex flex-row justify-between items-center">
-          <select name="language" className="appearance-none">
-            {["C#", "Javascript", "Ruby"].map((l) => (
-              <option value={l} key={l}>
-                {l}
-              </option>
-            ))}
-          </select>
+          <Select
+            info="Change language"
+            items={["C#", "Javascript", "Ruby"]}
+            defaultItem={language}
+            onSelect={(option) => changeLanguage(option)}
+          />
           <div>
             <MdSettings
               size={30}
@@ -71,15 +89,15 @@ const PlaygroundPage: BlitzPage = () => {
         <textarea
           className="whitespace-pre h-28 mb-5 text-base bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 p-3 resize-none outline-none"
           spellCheck={false}
-          value={input}
-          onChange={(e) => changeInput(e.target.value)}
+          value={stdin}
+          onChange={(e) => changeStdin(e.target.value)}
         />
         <button
           className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4 disabled:active:ring-0 disabled:bg-primary-500 disabled:cursor-default"
           disabled={codeIsExecuting}
           onClick={() => {
             setCodeIsExecuting(true)
-            invoke(executeCode, { code, language: "ruby", stdin: input }).then((r) => {
+            invoke(executeCode, { code, language, stdin }).then((r) => {
               setStdout(r.stdout)
               setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
               setCodeIsExecuting(false)
