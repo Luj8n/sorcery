@@ -11,6 +11,7 @@ const PlaygroundPage: BlitzPage = () => {
   const [stdout, setStdout] = useState("")
   const [stderror, setStderror] = useState("")
   const [settingsWindow, setSettingsWindow] = useState(false)
+  const [codeIsExecuting, setCodeIsExecuting] = useState(false)
 
   useEffect(() => setMounted(true), [])
 
@@ -74,13 +75,17 @@ const PlaygroundPage: BlitzPage = () => {
           onChange={(e) => changeInput(e.target.value)}
         />
         <button
-          className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4"
-          onClick={() =>
+          className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4 disabled:active:ring-0 disabled:bg-primary-500 disabled:cursor-default"
+          disabled={codeIsExecuting}
+          onClick={() => {
+            setCodeIsExecuting(true)
             invoke(executeCode, { code, language: "ruby", stdin: input }).then((r) => {
               setStdout(r.stdout)
               setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
+              setCodeIsExecuting(false)
+              console.log(`Time taken to execute: ${r.time}`)
             })
-          }
+          }}
         >
           Execute code
         </button>

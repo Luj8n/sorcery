@@ -10,7 +10,9 @@ const ExecuteCode = z.object({
 interface RequestResult {
   stdout: string
   stderr?: string
+  time: number
   time_limit_exceeded: boolean
+  successful: boolean
 }
 
 export default resolver.pipe(
