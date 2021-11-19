@@ -25,7 +25,9 @@ export default resolver.pipe(resolver.zod(CreateProblem), resolver.authorize(), 
     },
   })
 
-  const problem = db.problem.findFirst({ where: { title: title } })
+  const problem = await db.problem.findFirst({ where: { title: title } })
+
+  if (problem === null) throw Error("Something went wrong...")
 
   return problem
 })
