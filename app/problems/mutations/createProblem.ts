@@ -8,14 +8,24 @@ const CreateProblem = z.object({
 
 export default resolver.pipe(resolver.zod(CreateProblem), resolver.authorize(), async (input) => {
   // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-  // const problem = await db.problem.create({
-  //   data: {
-  //     description: "",
-  //     title: "title",
-  //     difficulty: "MEDIUM",
-  //     type: "IO",
-  //     visibility: "EVERYONE",
-  //   },
-  // })
-  // return problem
+  // TODO: a lot to do
+  let title = "asd"
+  await db.user.update({
+    where: { email: "asd" },
+    data: {
+      problems: {
+        create: {
+          description: "",
+          title: title,
+          difficulty: "MEDIUM",
+          type: "IO",
+          visibility: "EVERYONE",
+        },
+      },
+    },
+  })
+
+  const problem = db.problem.findFirst({ where: { title: title } })
+
+  return problem
 })
