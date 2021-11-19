@@ -18,7 +18,7 @@ model User {
   updatedAt         DateTime   @updatedAt
   name              String?
   email             String     @unique
-  hashedPassword    String
+  hashedPassword    String?
   role              Role       @default(USER)
   tokens            Token[]
   sessions          Session[]
