@@ -24,32 +24,33 @@
     ]
   },
   "dependencies": {
-    "@prisma/client": "3.4.1",
-    "@sendgrid/mail": "7.5.0",
-    "autoprefixer": "10",
-    "blitz": "0.42.4",
+    "@prisma/client": "3.5.0",
+    "@sendgrid/mail": "7.6.0",
+    "autoprefixer": "10.4.0",
+    "blitz": "0.43.0",
     "final-form": "4.20.4",
     "next-themes": "0.0.15",
-    "postcss": "8",
-    "react": "18.0.0-alpha-996da67b2-20211018",
-    "react-dom": "18.0.0-alpha-996da67b2-20211018",
+    "postcss": "8.3.11",
+    "react": "18.0.0-beta-149b420f6-20211119",
+    "react-dom": "18.0.0-beta-149b420f6-20211119",
     "react-final-form": "6.5.7",
     "react-icons": "4.3.1",
-    "tailwindcss": "2.1.2",
-    "zod": "3.9.8"
+    "tailwindcss": "2.2.19",
+    "zod": "3.11.6"
   },
   "devDependencies": {
     "@types/preview-email": "2.0.1",
-    "@types/react": "17.0.30",
-    "eslint": "7.32.0",
-    "husky": "6.0.0",
-    "lint-staged": "10.5.4",
+    "@types/react": "17.0.35",
+    "eslint": "8.2.0",
+    "husky": "7.0.4",
+    "lint-staged": "12.0.3",
     "prettier": "2.4.1",
-    "prettier-plugin-prisma": "0.15.0",
-    "pretty-quick": "3.1.1",
+    "prettier-plugin-prisma": "3.5.0",
+    "pretty-quick": "3.1.2",
     "preview-email": "3.0.5",
-    "prisma": "3.2.1",
-    "typescript": "~4.3"
+    "prisma": "3.5.0",
+    "typescript": "4.5.2",
+    "yarn-upgrade-all": "0.5.4"
   },
   "private": true
 }
