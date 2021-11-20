@@ -95,7 +95,7 @@ model Problem {
   id           Int         @id @default(autoincrement())
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-  title        String
+  title        String      @unique
   description  String
   type         ProblemType
   visibility   Visibility
@@ -133,7 +133,7 @@ model Category {
   id          Int       @id @default(autoincrement())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-  name        String
+  name        String    @unique
   description String
   problems    Problem[]
 }
