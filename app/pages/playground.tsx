@@ -69,6 +69,8 @@ const PlaygroundPage: BlitzPage = () => {
           disabled={codeIsExecuting}
           onClick={() => {
             setCodeIsExecuting(true)
+            setStdout("")
+            setStderror("")
             invoke(executeCode, { code, language: language.toLowerCase(), stdin })
               .then((r) => {
                 setStdout(r.stdout)
