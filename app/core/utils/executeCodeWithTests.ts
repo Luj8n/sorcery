@@ -1,55 +1,41 @@
 import { executeCode } from "./executeCode"
 
-export interface ExecutedTest {
+export interface ExecutionWithTest {
   input: string
+  expected_output: string
+  actual_output: string
+  stderr?: string
   time: number
   time_limit_exceeded: boolean
-  successful: boolean
-  expectedOutput: string
-  actualOutput: string
+  did_not_crash: boolean
 }
 
-export interface ExecutionWithTests {
-  executedTests: ExecutedTest[]
-  passed: boolean
+export interface ExecuteWithTests {
+  executions: ExecutionWithTest[]
+  tests_passed: number
 }
 
 export interface Test {
   input: string
-  expectedOutput: string
+  expected_output: string
 }
 
 export interface ExecuteCodeWithTests {
   code: string
   language: string
+  version?: string
   tests: Test[]
 }
 
-export async function executeCodeWithTests(
-  input: ExecuteCodeWithTests
-): Promise<ExecutionWithTests> {
-  let executedTests: ExecutedTest[] = []
+export async function executeCodeWithTests(input: ExecuteCodeWithTests): Promise<void> {
+  if (!process.env.RUNNER_URL) throw new Error("process.env.RUNNER_URL missing")
+  const execute_endpoint = process.env.RUNNER_URL + "/run_tests"
+  const result = await fetch(execute_endpoint, {
+    method: "POST",
+    body: JSON.stringify(input),
+  })
 
-  for (const test of input.tests) {
-    const executedCode = await executeCode({
-      code: input.code,
-      language: input.language,
-      stdin: test.input,
-    })
+  if (!result.ok) throw new Error(await result.text())
 
-    executedTests.push({
-      input: test.input,
-      expectedOutput: test.expectedOutput,
-      actualOutput: executedCode.stdout,
-      ...executedCode,
-    })
-  }
-
-  return {
-    executedTests,
-    passed: executedTests.every(
-      (executedTest) =>
-        executedTest.expectedOutput === executedTest.actualOutput && executedTest.successful
-    ),
-  }
+  return await result.json()
 }
