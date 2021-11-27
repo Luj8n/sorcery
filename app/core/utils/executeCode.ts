@@ -17,11 +17,7 @@ export async function executeCode(input: ExecuteCode): Promise<Execution> {
   const execute_endpoint = process.env.RUNNER_URL + "/execute"
   const result = await fetch(execute_endpoint, {
     method: "POST",
-    body: JSON.stringify({
-      language: input.language,
-      code: input.code,
-      input: input.input,
-    }),
+    body: JSON.stringify(input),
   })
 
   if (!result.ok) throw new Error(await result.text())
