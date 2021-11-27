@@ -27,7 +27,7 @@ export interface ExecuteCodeWithTests {
   tests: Test[]
 }
 
-export async function executeCodeWithTests(input: ExecuteCodeWithTests): Promise<void> {
+export async function executeCodeWithTests(input: ExecuteCodeWithTests): Promise<ExecuteWithTests> {
   if (!process.env.RUNNER_URL) throw new Error("process.env.RUNNER_URL missing")
   const execute_endpoint = process.env.RUNNER_URL + "/run_tests"
   const result = await fetch(execute_endpoint, {
