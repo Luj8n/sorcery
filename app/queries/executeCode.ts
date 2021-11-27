@@ -5,7 +5,8 @@ import { z } from "zod"
 const ExecuteCode = z.object({
   code: z.string(),
   language: z.string(),
-  stdin: z.string(),
+  input: z.string(),
+  version: z.string().optional(),
 })
 
 export default resolver.pipe(

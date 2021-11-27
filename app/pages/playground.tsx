@@ -33,11 +33,12 @@ const LanguageSelect = ({ defaultLanguage, onLanguageSelect }: LanguageSeletProp
 
 const PlaygroundPage: BlitzPage = () => {
   const [code, setCode] = useSavedState<string>("// write code here", "code")
-  const [stdin, setStdin] = useSavedState<string>("", "stdin")
+  const [input, setInput] = useSavedState<string>("", "input")
   const [language, setLanguage] = useSavedState<string>("Javascript", "language")
 
   const [stdout, setStdout] = useState("")
   const [stderror, setStderror] = useState("")
+  const [executionTime, setExecutionTime] = useState("")
 
   const [settingsWindow, setSettingsWindow] = useState(false)
   const [codeIsExecuting, setCodeIsExecuting] = useState(false)
@@ -61,8 +62,8 @@ const PlaygroundPage: BlitzPage = () => {
         <textarea
           className="font-firaMono whitespace-pre h-28 mb-5 text-base bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 p-3 resize-none outline-none"
           spellCheck={false}
-          value={stdin}
-          onChange={(e) => setStdin(e.target.value)}
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
         />
         <button
           className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4 disabled:active:ring-0 disabled:bg-primary-500 disabled:cursor-default"
@@ -71,12 +72,13 @@ const PlaygroundPage: BlitzPage = () => {
             setCodeIsExecuting(true)
             setStdout("")
             setStderror("")
-            invoke(executeCode, { code, language: language.toLowerCase(), stdin })
+            setExecutionTime("")
+            invoke(executeCode, { code, language: language.toLowerCase(), input })
               .then((r) => {
                 setStdout(r.stdout)
                 setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
+                setExecutionTime(`${r.time} ms`)
                 setCodeIsExecuting(false)
-                console.log(r)
               })
               .catch((e) => {
                 setCodeIsExecuting(false)
@@ -91,8 +93,12 @@ const PlaygroundPage: BlitzPage = () => {
           {stdout}
         </div>
         <h1 className="text-lg font-semibold mb-3">stderr:</h1>
-        <div className="font-firaMono overflow-auto whitespace-pre p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
+        <div className="font-firaMono overflow-auto whitespace-pre mb-7 p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
           {stderror}
+        </div>
+        <h1 className="text-lg font-semibold mb-3">Execution time:</h1>
+        <div className="font-firaMono h-8 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
+          {executionTime}
         </div>
       </div>
       <textarea

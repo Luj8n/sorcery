@@ -1,7 +1,7 @@
 export interface ExecuteCode {
   code: string
   language: string
-  stdin?: string
+  input?: string
 }
 
 export interface Execution {
@@ -9,7 +9,7 @@ export interface Execution {
   stderr?: string
   time: number
   time_limit_exceeded: boolean
-  successful: boolean
+  did_not_crash: boolean
 }
 
 export async function executeCode(input: ExecuteCode): Promise<Execution> {
@@ -20,7 +20,7 @@ export async function executeCode(input: ExecuteCode): Promise<Execution> {
     body: JSON.stringify({
       language: input.language,
       code: input.code,
-      stdin: input.stdin,
+      input: input.input,
     }),
   })
 
