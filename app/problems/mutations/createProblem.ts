@@ -12,7 +12,7 @@ const CreateProblem = z.object({
     .array(
       z.object({
         input: z.string(),
-        expectedOutput: z.string(),
+        expected_output: z.string(),
       })
     )
     .nonempty(),
@@ -35,12 +35,13 @@ export default resolver.pipe(
     })
 
     // TODO: provide more error info
-    if (!executedCodeWithTests.passed) throw new Error("Code didn't pass all tests")
+    if (executedCodeWithTests.tests_passed !== input.tests.length)
+      throw new Error("Code didn't pass all tests")
     if (
       input.timeout &&
-      executedCodeWithTests.executedTests.some((executedTest) => executedTest.time > input.timeout!)
+      executedCodeWithTests.executions.some((executedTest) => executedTest.time > input.timeout!)
     )
-      throw new Error("Code timed out")
+      throw new Error("Time limit exceeded")
 
     const problem = await db.problem.create({
       data: {
@@ -56,7 +57,7 @@ export default resolver.pipe(
           create: {
             code: input.solution.code,
             language: input.solution.language,
-            combinedExecutionTime: executedCodeWithTests.executedTests.reduce(
+            combinedExecutionTime: executedCodeWithTests.executions.reduce(
               (prev, curr) => prev + curr.time,
               0
             ),
@@ -67,7 +68,10 @@ export default resolver.pipe(
         },
         tests: {
           createMany: {
-            data: input.tests,
+            data: input.tests.map((test) => ({
+              input: test.input,
+              expectedOutput: test.expected_output,
+            })),
           },
         },
       },
