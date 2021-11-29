@@ -8,8 +8,8 @@ export interface Execution {
   stdout: string
   stderr?: string
   time: number
-  time_limit_exceeded: boolean
-  did_not_crash: boolean
+  timeLimitExceeded: boolean
+  didNotCrash: boolean
 }
 
 export async function executeCode(input: ExecuteCode): Promise<Execution> {

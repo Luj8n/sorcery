@@ -76,7 +76,7 @@ const PlaygroundPage: BlitzPage = () => {
             invoke(executeCode, { code, language: language.toLowerCase(), input })
               .then((r) => {
                 setStdout(r.stdout)
-                setStderror(r.stderr ?? (r.time_limit_exceeded ? "Time limit exceeded" : ""))
+                setStderror(r.stderr ?? (r.timeLimitExceeded ? "Time limit exceeded" : ""))
                 setExecutionTime(`${r.time} ms`)
                 setCodeIsExecuting(false)
               })

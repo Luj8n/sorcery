@@ -1,18 +1,18 @@
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-
-const UpdateProblem = z.object({
-  id: z.number(),
-  title: z.string(),
-})
+import { UpdateProblem } from "../validations"
 
 export default resolver.pipe(
   resolver.zod(UpdateProblem),
   resolver.authorize(),
   async ({ id, ...data }) => {
-    // TODO: in multi-tenant app, you must add validation to ensure correct tenant
-    const problem = await db.problem.update({ where: { id }, data })
+    // TODO: maybe don't delete all the tests, just the ones that are new, and remove the unused ones
+    await db.test.deleteMany({ where: { problemId: id } })
+
+    const problem = await db.problem.update({
+      where: { id },
+      data: { ...data, tests: { createMany: { data: data.tests } } },
+    })
 
     return problem
   }

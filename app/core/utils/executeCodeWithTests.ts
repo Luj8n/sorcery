@@ -2,12 +2,12 @@ import { executeCode } from "./executeCode"
 
 export interface ExecutionWithTest {
   input: string
-  expected_output: string
+  expectedOutput: string
   actual_output: string
   stderr?: string
   time: number
-  time_limit_exceeded: boolean
-  did_not_crash: boolean
+  timeLimitExceeded: boolean
+  didNotCrash: boolean
 }
 
 export interface ExecuteWithTests {
@@ -17,7 +17,7 @@ export interface ExecuteWithTests {
 
 export interface Test {
   input: string
-  expected_output: string
+  expectedOutput: string
 }
 
 export interface ExecuteCodeWithTests {

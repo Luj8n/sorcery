@@ -1,27 +1,7 @@
 import { executeCodeWithTests } from "app/core/utils/executeCodeWithTests"
 import { resolver } from "blitz"
 import db from "db"
-import { z } from "zod"
-
-const CreateProblem = z.object({
-  title: z.string().max(40),
-  description: z.string().max(1000),
-  difficulty: z.enum(["EASY", "MEDIUM", "HARD"]),
-  visibility: z.enum(["EVERYONE", "UNLISTED", "INVITED"]),
-  tests: z
-    .array(
-      z.object({
-        input: z.string(),
-        expected_output: z.string(),
-      })
-    )
-    .nonempty(),
-  solution: z.object({
-    code: z.string(),
-    language: z.string(),
-  }),
-  timeout: z.number().int().positive().max(3000).optional(),
-})
+import { CreateProblem } from "../validations"
 
 export default resolver.pipe(
   resolver.zod(CreateProblem),
@@ -48,7 +28,7 @@ export default resolver.pipe(
         title: input.title,
         description: input.description,
         difficulty: input.difficulty,
-        type: "IO",
+        type: "IO", // for now just IO
         visibility: input.visibility,
         user: {
           connect: { id: ctx.session.userId },
@@ -70,7 +50,7 @@ export default resolver.pipe(
           createMany: {
             data: input.tests.map((test) => ({
               input: test.input,
-              expectedOutput: test.expected_output,
+              expectedOutput: test.expectedOutput,
             })),
           },
         },

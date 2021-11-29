@@ -8,7 +8,6 @@ const GetProblem = z.object({
 })
 
 export default resolver.pipe(resolver.zod(GetProblem), resolver.authorize(), async ({ id }) => {
-  // TODO: in multi-tenant app, you must add validation to ensure correct tenant
   const problem = await db.problem.findFirst({ where: { id } })
 
   if (!problem) throw new NotFoundError()
