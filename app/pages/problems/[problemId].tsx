@@ -13,11 +13,11 @@ export const Problem = () => {
   return (
     <>
       <Head>
-        <title>Problem {problem.id}</title>
+        <title>{problem.title}</title>
       </Head>
 
       <div>
-        <h1>Problem {problem.id}</h1>
+        <h1>{problem.title}</h1>
         <pre>{JSON.stringify(problem, null, 2)}</pre>
 
         <Link href={Routes.EditProblemPage({ problemId: problem.id })}>

@@ -1,5 +1,15 @@
-import { Suspense } from "react"
-import { Head, Link, useRouter, useQuery, useMutation, useParam, BlitzPage, Routes } from "blitz"
+import { Suspense, useEffect } from "react"
+import {
+  Head,
+  Link,
+  useRouter,
+  useQuery,
+  useMutation,
+  useParam,
+  BlitzPage,
+  Routes,
+  useSession,
+} from "blitz"
 import Layout from "app/core/layouts/Layout"
 import getProblem from "app/problems/queries/getProblem"
 import updateProblem from "app/problems/mutations/updateProblem"
@@ -7,6 +17,7 @@ import { ProblemForm, FORM_ERROR } from "app/problems/components/ProblemForm"
 
 export const EditProblem = () => {
   const router = useRouter()
+  const session = useSession()
   const problemId = useParam("problemId", "number")
   const [problem, { setQueryData }] = useQuery(
     getProblem,
@@ -17,6 +28,12 @@ export const EditProblem = () => {
     }
   )
   const [updateProblemMutation] = useMutation(updateProblem)
+
+  useEffect(() => {
+    if (session.userId !== problem.userId && session.role !== "ADMIN") {
+      router.push(Routes.Home())
+    }
+  })
 
   return (
     <>
