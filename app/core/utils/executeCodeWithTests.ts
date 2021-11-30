@@ -35,8 +35,10 @@ export async function executeCodeWithTests(input: ExecuteCodeWithTests): Promise
     body: JSON.stringify(input),
   })
 
-  console.error(await result.text())
-  if (!result.ok) throw new Error("Something went wrong...")
+  if (!result.ok) {
+    console.error(await result.text())
+    throw new Error("Something went wrong...")
+  }
 
   return await result.json()
 }
