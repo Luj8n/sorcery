@@ -11,7 +11,8 @@ export async function getRuntimes(): Promise<Runtime[]> {
     method: "GET",
   })
 
-  if (!result.ok) throw new Error(await result.text())
+  console.error(await result.text())
+  if (!result.ok) throw new Error("Something went wrong...")
 
   return await result.json()
 }

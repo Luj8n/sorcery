@@ -20,7 +20,8 @@ export async function executeCode(input: ExecuteCode): Promise<Execution> {
     body: JSON.stringify(input),
   })
 
-  if (!result.ok) throw new Error(await result.text())
+  console.error(await result.text())
+  if (!result.ok) throw new Error("Something went wrong...")
 
   return await result.json()
 }
