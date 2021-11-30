@@ -18,6 +18,9 @@ export async function executeCode(input: ExecuteCode): Promise<Execution> {
   const result = await fetch(execute_endpoint, {
     method: "POST",
     body: JSON.stringify(input),
+  }).catch((e) => {
+    console.error(e)
+    throw new Error("Something went wrong...")
   })
 
   if (!result.ok) {

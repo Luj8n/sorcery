@@ -9,6 +9,9 @@ export async function getRuntimes(): Promise<Runtime[]> {
   const execute_endpoint = process.env.RUNNER_URL + "/runtimes"
   const result = await fetch(execute_endpoint, {
     method: "GET",
+  }).catch((e) => {
+    console.error(e)
+    throw new Error("Something went wrong...")
   })
 
   if (!result.ok) {
