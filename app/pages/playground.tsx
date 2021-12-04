@@ -10,24 +10,47 @@ import getRuntimes from "app/queries/getRuntimes"
 interface LanguageSeletProps {
   defaultLanguage: string
   onLanguageSelect: (option: string) => void
+  defaultVersion: string
+  onVersionSelect: (option: string) => void
 }
 
-const LanguageSelect = ({ defaultLanguage, onLanguageSelect }: LanguageSeletProps) => {
+const RuntimeSelect = ({
+  defaultLanguage,
+  onLanguageSelect,
+  defaultVersion,
+  onVersionSelect,
+}: LanguageSeletProps) => {
+  // forgive me
+  // TODO: FIX THIS MESS
   const [runtimes] = useQuery(getRuntimes, null)
 
   const languages = runtimes
     .map((runtime) => runtime.language.slice(0, 1).toUpperCase() + runtime.language.slice(1))
     .filter((v, i, a) => a.indexOf(v) === i)
 
+  const versions = runtimes
+    .filter((runtime) => runtime.language === defaultLanguage.toLowerCase())
+    .map((runtime) => runtime.version)
+
   languages.sort()
 
+  console.log(defaultLanguage)
+
   return (
-    <Select
-      info="Change language"
-      items={languages}
-      defaultItem={defaultLanguage}
-      onSelect={onLanguageSelect}
-    />
+    <>
+      <Select
+        info="Change language"
+        items={languages}
+        defaultItem={defaultLanguage}
+        onSelect={onLanguageSelect}
+      />
+      <Select
+        info="Change version"
+        items={versions}
+        defaultItem={defaultVersion}
+        onSelect={onVersionSelect}
+      />
+    </>
   )
 }
 
@@ -35,6 +58,7 @@ const PlaygroundPage: BlitzPage = () => {
   const [code, setCode] = useSavedState<string>("// write code here", "code")
   const [input, setInput] = useSavedState<string>("", "input")
   const [language, setLanguage] = useSavedState<string>("Javascript", "language")
+  const [version, setVersion] = useSavedState<string>("15.10.0", "version")
 
   const [stdout, setStdout] = useState("")
   const [stderror, setStderror] = useState("")
@@ -48,7 +72,12 @@ const PlaygroundPage: BlitzPage = () => {
       <div className="w-1/3 flex flex-col p-5">
         <div className="flex flex-row justify-between items-center">
           <Suspense fallback="Loading...">
-            <LanguageSelect defaultLanguage={language} onLanguageSelect={setLanguage} />
+            <RuntimeSelect
+              defaultLanguage={language}
+              onLanguageSelect={setLanguage}
+              defaultVersion={version}
+              onVersionSelect={setVersion}
+            />
           </Suspense>
           <div>
             <MdSettings
@@ -73,7 +102,7 @@ const PlaygroundPage: BlitzPage = () => {
             setStdout("")
             setStderror("")
             setExecutionTime("")
-            invoke(executeCode, { code, language: language.toLowerCase(), input })
+            invoke(executeCode, { code, language: language.toLowerCase(), version, input })
               .then((r) => {
                 setStdout(r.stdout)
                 setStderror(r.stderr ?? (r.timeLimitExceeded ? "Time limit exceeded" : ""))
