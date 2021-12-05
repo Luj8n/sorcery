@@ -19,6 +19,15 @@ const seed = async () => {
     },
   })
 
+  await db.user.create({
+    data: {
+      email: "user@user.com",
+      hashedPassword: await SecurePassword.hash("user"),
+      name: "User",
+      role: "USER",
+    },
+  })
+
   const categoriesData = [
     { name: "Strings", description: "You have to manipulate strings" },
     { name: "Numbers", description: "You have to manipulate numbers" },

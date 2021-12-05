@@ -1,11 +1,12 @@
-import { useState, useEffect, Suspense } from "react"
-import { BlitzPage, Routes, invoke, useQuery } from "blitz"
+import { useState, Suspense } from "react"
+import { BlitzPage, Routes, invoke, useQuery, getSession } from "blitz"
 import { MdSettings } from "react-icons/md"
 import Header from "app/core/layouts/Layout"
 import executeCode from "app/queries/executeCode"
 import Select from "app/core/components/Select"
 import { useSavedState } from "app/core/hooks/useSavedState"
 import getRuntimes from "app/queries/getRuntimes"
+import Editor from "app/core/components/Editor"
 
 interface LanguageSeletProps {
   defaultLanguage: string
@@ -34,8 +35,6 @@ const RuntimeSelect = ({
 
   languages.sort()
 
-  console.log(defaultLanguage)
-
   return (
     <>
       <Select
@@ -54,8 +53,23 @@ const RuntimeSelect = ({
   )
 }
 
+export const getServerSideProps = async ({ req, res }: any) => {
+  const session = await getSession(req, res)
+
+  if (session.role !== "ADMIN") {
+    return {
+      redirect: {
+        destination: Routes.Page404().pathname,
+        permanent: false,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const PlaygroundPage: BlitzPage = () => {
-  const [code, setCode] = useSavedState<string>("// write code here", "code")
+  const [code, setCode] = useSavedState<string>("", "code")
   const [input, setInput] = useSavedState<string>("", "input")
   const [language, setLanguage] = useSavedState<string>("Javascript", "language")
   const [version, setVersion] = useSavedState<string>("15.10.0", "version")
@@ -68,9 +82,9 @@ const PlaygroundPage: BlitzPage = () => {
   const [codeIsExecuting, setCodeIsExecuting] = useState(false)
 
   return (
-    <div className="h-full flex flex-row justify-between items-stretch">
-      <div className="w-1/3 flex flex-col p-5">
-        <div className="flex flex-row justify-between items-center">
+    <div className="flex flex-row h-full">
+      <div className="p-5 w-1/3 overflow-y-auto">
+        <div className="flex justify-between items-center mb-5 w-full">
           <Suspense fallback="Loading...">
             <RuntimeSelect
               defaultLanguage={language}
@@ -79,23 +93,16 @@ const PlaygroundPage: BlitzPage = () => {
               onVersionSelect={setVersion}
             />
           </Suspense>
-          <div>
-            <MdSettings
-              size={30}
-              className="cursor-pointer"
-              onClick={() => setSettingsWindow(!settingsWindow)}
-            />
-          </div>
+          <MdSettings
+            size={30}
+            className="cursor-pointer"
+            onClick={() => setSettingsWindow(!settingsWindow)}
+          />
         </div>
         <h1 className="text-lg font-semibold mb-3">Input:</h1>
-        <textarea
-          className="font-firaMono whitespace-pre h-28 mb-5 text-base bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 p-3 resize-none outline-none"
-          spellCheck={false}
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
+        <Editor value={input} onChange={setInput} className="h-52 mb-5 w-full resize-y" />
         <button
-          className="h-12 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4 disabled:active:ring-0 disabled:bg-primary-500 disabled:cursor-default"
+          className="h-14 w-full mb-7 font-semibold text-lg rounded-md bg-primary-600 text-neutral-50 hover:bg-primary-700 active:ring-4 disabled:active:ring-0 disabled:bg-primary-500 disabled:cursor-default"
           disabled={codeIsExecuting}
           onClick={() => {
             setCodeIsExecuting(true)
@@ -118,11 +125,11 @@ const PlaygroundPage: BlitzPage = () => {
           Execute code
         </button>
         <h1 className="text-lg font-semibold mb-3">stdout:</h1>
-        <div className="font-firaMono overflow-auto whitespace-pre mb-7 p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
+        <div className="font-firaMono overflow-auto whitespace-pre mb-7 p-3 h-48 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100 resize-y">
           {stdout}
         </div>
         <h1 className="text-lg font-semibold mb-3">stderr:</h1>
-        <div className="font-firaMono overflow-auto whitespace-pre mb-7 p-3 h-28 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100">
+        <div className="font-firaMono overflow-auto whitespace-pre mb-7 p-3 h-48 bg-neutral-300 text-neutral-900 dark:bg-neutral-600 dark:text-neutral-100 resize-y">
           {stderror}
         </div>
         <h1 className="text-lg font-semibold mb-3">Execution time:</h1>
@@ -130,12 +137,7 @@ const PlaygroundPage: BlitzPage = () => {
           {executionTime}
         </div>
       </div>
-      <textarea
-        className="font-firaMono whitespace-pre text-base flex-grow bg-neutral-200 text-neutral-800 dark:bg-neutral-700 dark:text-neutral-100 p-5 resize-none outline-none"
-        spellCheck={false}
-        value={code}
-        onChange={(e) => setCode(e.target.value)}
-      />
+      <Editor value={code} onChange={setCode} className="flex-grow" />
     </div>
   )
 }
