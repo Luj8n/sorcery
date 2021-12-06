@@ -82,8 +82,8 @@ const PlaygroundPage: BlitzPage = () => {
   const [codeIsExecuting, setCodeIsExecuting] = useState(false)
 
   return (
-    <div className="flex flex-row h-full">
-      <div className="p-5 w-1/3 overflow-y-auto">
+    <div className="flex h-auto lg:h-full flex-col lg:flex-row">
+      <div className="p-5 w-full lg:w-1/3 overflow-y-auto">
         <div className="flex justify-between items-center mb-5 w-full">
           <Suspense fallback="Loading...">
             <RuntimeSelect
@@ -137,7 +137,7 @@ const PlaygroundPage: BlitzPage = () => {
           {executionTime}
         </div>
       </div>
-      <Editor value={code} onChange={setCode} className="flex-grow" />
+      <Editor value={code} onChange={setCode} className="flex-grow h-[700px] lg:h-auto" />
     </div>
   )
 }

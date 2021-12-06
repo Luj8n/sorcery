@@ -51,7 +51,7 @@ const Header = () => {
 
   return (
     <>
-      <div className="bg-white dark:bg-neutral-900 h-20 px-5 flex align-middle w-full justify-between fixed top-0">
+      <div className="bg-white dark:bg-neutral-900 h-20 px-5 flex align-middle w-full justify-between fixed top-0 z-30">
         <Link href={Routes.Home()}>
           <Image src={logo} alt="sorcery" className="cursor-pointer" />
         </Link>
