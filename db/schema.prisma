@@ -13,7 +13,7 @@ generator client {
 // --------------------------------------
 
 model User {
-  id                Int         @id @default(autoincrement())
+  id                String      @id @default(uuid())
   createdAt         DateTime    @default(now())
   updatedAt         DateTime    @updatedAt
   name              String?
@@ -36,7 +36,7 @@ enum Role {
 }
 
 model Session {
-  id                 Int       @id @default(autoincrement())
+  id                 String    @id @default(uuid())
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
   expiresAt          DateTime?
@@ -46,11 +46,11 @@ model Session {
   publicData         String?
   privateData        String?
   user               User?     @relation(fields: [userId], references: [id])
-  userId             Int?
+  userId             String?
 }
 
 model Token {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   hashedToken String
@@ -58,7 +58,7 @@ model Token {
   expiresAt   DateTime
   sentTo      String
   user        User      @relation(fields: [userId], references: [id])
-  userId      Int
+  userId      String
 
   @@unique([hashedToken, type])
 }
@@ -68,30 +68,30 @@ enum TokenType {
 }
 
 model Test {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   input          String
   expectedOutput String
   problem        Problem  @relation(fields: [problemId], references: [id])
-  problemId      Int
+  problemId      String
 }
 
 model Solution {
-  id                    Int      @id @default(autoincrement())
+  id                    String   @id @default(uuid())
   createdAt             DateTime @default(now())
   updatedAt             DateTime @updatedAt
   code                  String
   language              String
   combinedExecutionTime Int
   user                  User     @relation(fields: [userId], references: [id])
-  userId                Int
+  userId                String
   problem               Problem  @relation(fields: [problemId], references: [id])
-  problemId             Int
+  problemId             String
 }
 
 model Problem {
-  id           Int         @id @default(autoincrement())
+  id           String      @id @default(uuid())
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   title        String      @unique
@@ -107,7 +107,7 @@ model Problem {
   likedBy      User[]      @relation("_ProblemsLikedByUsers")
   dislikedBy   User[]      @relation("_ProblemsDislikedByUsers")
   user         User        @relation(fields: [userId], references: [id])
-  userId       Int
+  userId       String
   savedCode    SavedCode[]
 }
 
@@ -129,7 +129,7 @@ enum Difficulty {
 }
 
 model Category {
-  id          Int       @id @default(autoincrement())
+  id          String    @id @default(uuid())
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   name        String    @unique
@@ -138,13 +138,13 @@ model Category {
 }
 
 model SavedCode {
-  id        Int      @id @default(autoincrement())
+  id        String   @id @default(uuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   code      String
   language  String
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  userId    String
   problem   Problem  @relation(fields: [problemId], references: [id])
-  problemId Int
+  problemId String
 }

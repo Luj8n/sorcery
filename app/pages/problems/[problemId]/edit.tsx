@@ -18,7 +18,7 @@ import { ProblemForm, FORM_ERROR } from "app/problems/components/ProblemForm"
 export const EditProblem = () => {
   const router = useRouter()
   const session = useSession()
-  const problemId = useParam("problemId", "number")
+  const problemId = useParam("problemId", "string")
   const [problem, { setQueryData }] = useQuery(
     getProblem,
     { id: problemId },

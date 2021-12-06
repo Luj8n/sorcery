@@ -6,7 +6,7 @@ import deleteProblem from "app/problems/mutations/deleteProblem"
 
 export const Problem = () => {
   const router = useRouter()
-  const problemId = useParam("problemId", "number")
+  const problemId = useParam("problemId", "string")
   const [deleteProblemMutation] = useMutation(deleteProblem)
   const [problem] = useQuery(getProblem, { id: problemId })
 

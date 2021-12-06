@@ -1,6 +1,6 @@
 import { z } from "zod"
 
-const id = z.number()
+const id = z.string()
 const title = z.string().max(40)
 const description = z.string().max(1000)
 const difficulty = z.enum(["EASY", "MEDIUM", "HARD"])
