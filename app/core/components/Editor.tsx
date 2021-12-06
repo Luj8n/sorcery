@@ -28,6 +28,8 @@ const Editor = ({ value, onChange, className }: EditorProps) => {
         const end = e.currentTarget.selectionEnd
         const value = e.currentTarget.value
 
+        // console.log(e.key)
+
         if (e.ctrlKey) {
           if (e.key === "z") {
             e.preventDefault()
@@ -49,7 +51,9 @@ const Editor = ({ value, onChange, className }: EditorProps) => {
           e.preventDefault()
           const newValue = value.substring(0, start) + "  " + value.substring(end)
 
-          e.currentTarget.selectionStart = e.currentTarget.selectionEnd = start + 2
+          e.currentTarget.value = newValue
+          e.currentTarget.selectionStart = start + 2
+          e.currentTarget.selectionEnd = start + 2
 
           updateHistory(newValue)
           onChange(newValue)
@@ -57,7 +61,9 @@ const Editor = ({ value, onChange, className }: EditorProps) => {
           e.preventDefault()
           const newValue = value.substring(0, start) + "\n" + value.substring(end)
 
-          e.currentTarget.selectionStart = e.currentTarget.selectionEnd = start + 1
+          e.currentTarget.value = newValue
+          e.currentTarget.selectionStart = start + 1
+          e.currentTarget.selectionEnd = start + 1
 
           updateHistory(newValue)
           onChange(newValue)
@@ -65,6 +71,7 @@ const Editor = ({ value, onChange, className }: EditorProps) => {
       }}
       value={value}
       onChange={(e) => {
+        console.log(e.target.value)
         updateHistory(e.target.value)
         onChange(e.target.value)
       }}
